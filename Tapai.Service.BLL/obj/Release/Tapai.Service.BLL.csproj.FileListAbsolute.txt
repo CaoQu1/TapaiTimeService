@@ -1,0 +1,13 @@
+D:\Tapai.Service\Tapai.Service.BLL\bin\Release\Tapai.Service.BLL.dll
+D:\Tapai.Service\Tapai.Service.BLL\bin\Release\Tapai.Service.BLL.pdb
+D:\Tapai.Service\Tapai.Service.BLL\bin\Release\Tapai.Service.DAL.dll
+D:\Tapai.Service\Tapai.Service.BLL\bin\Release\Tapai.Service.Model.dll
+D:\Tapai.Service\Tapai.Service.BLL\bin\Release\Tapai.Service.Common.dll
+D:\Tapai.Service\Tapai.Service.BLL\bin\Release\Tapai.Service.DAL.pdb
+D:\Tapai.Service\Tapai.Service.BLL\bin\Release\Tapai.Service.Model.pdb
+D:\Tapai.Service\Tapai.Service.BLL\bin\Release\Tapai.Service.Common.pdb
+D:\Tapai.Service\Tapai.Service.BLL\obj\Release\Tapai.Service.BLL.csprojAssemblyReference.cache
+D:\Tapai.Service\Tapai.Service.BLL\obj\Release\Tapai.Service.BLL.csproj.CoreCompileInputs.cache
+D:\Tapai.Service\Tapai.Service.BLL\obj\Release\Tapai.Service.BLL.csproj.CopyComplete
+D:\Tapai.Service\Tapai.Service.BLL\obj\Release\Tapai.Service.BLL.dll
+D:\Tapai.Service\Tapai.Service.BLL\obj\Release\Tapai.Service.BLL.pdb

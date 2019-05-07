@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tapai.Service", "Tapai.Service\Tapai.Service.csproj", "{01AB81BE-C9C6-4FB6-9F0D-ED5AE8B0B8DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{83EB631C-B5BE-42A5-8ACC-EA719B81DBDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tapai.Service.DAL", "Tapai.Service.DAL\Tapai.Service.DAL.csproj", "{4C3B3C81-62CC-4969-AB60-F06085F67327}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tapai.Service.BLL", "Tapai.Service.BLL\Tapai.Service.BLL.csproj", "{0F75D8B9-39F5-4CCC-B328-1C6A8CE95FFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tapai.Service.Model", "Tapai.Service.Model\Tapai.Service.Model.csproj", "{8398C9C7-36C6-45ED-981E-303C84544B3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tapai.Service.Common", "Tapai.Service.Common\Tapai.Service.Common.csproj", "{09EEA1B6-1589-46DE-AC6B-67A9D4E03F21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tapai.Service.WinForm", "Tapai.Service.WinForm\Tapai.Service.WinForm.csproj", "{375E6917-55FF-4DA7-91B6-9118467EB552}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01AB81BE-C9C6-4FB6-9F0D-ED5AE8B0B8DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01AB81BE-C9C6-4FB6-9F0D-ED5AE8B0B8DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01AB81BE-C9C6-4FB6-9F0D-ED5AE8B0B8DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01AB81BE-C9C6-4FB6-9F0D-ED5AE8B0B8DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C3B3C81-62CC-4969-AB60-F06085F67327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C3B3C81-62CC-4969-AB60-F06085F67327}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C3B3C81-62CC-4969-AB60-F06085F67327}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C3B3C81-62CC-4969-AB60-F06085F67327}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F75D8B9-39F5-4CCC-B328-1C6A8CE95FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F75D8B9-39F5-4CCC-B328-1C6A8CE95FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F75D8B9-39F5-4CCC-B328-1C6A8CE95FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F75D8B9-39F5-4CCC-B328-1C6A8CE95FFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8398C9C7-36C6-45ED-981E-303C84544B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8398C9C7-36C6-45ED-981E-303C84544B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8398C9C7-36C6-45ED-981E-303C84544B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8398C9C7-36C6-45ED-981E-303C84544B3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09EEA1B6-1589-46DE-AC6B-67A9D4E03F21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09EEA1B6-1589-46DE-AC6B-67A9D4E03F21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09EEA1B6-1589-46DE-AC6B-67A9D4E03F21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09EEA1B6-1589-46DE-AC6B-67A9D4E03F21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{375E6917-55FF-4DA7-91B6-9118467EB552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{375E6917-55FF-4DA7-91B6-9118467EB552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{375E6917-55FF-4DA7-91B6-9118467EB552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{375E6917-55FF-4DA7-91B6-9118467EB552}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD9D412B-E119-41DA-9C40-C316523B608E}
+	EndGlobalSection
+EndGlobal

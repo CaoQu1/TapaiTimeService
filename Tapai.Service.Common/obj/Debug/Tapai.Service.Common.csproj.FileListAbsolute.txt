@@ -1,0 +1,10 @@
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.Common\bin\Debug\Tapai.Service.Common.dll
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.Common\bin\Debug\Tapai.Service.Common.pdb
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.Common\obj\Debug\Tapai.Service.Common.csproj.CoreCompileInputs.cache
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.Common\obj\Debug\Tapai.Service.Common.dll
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.Common\obj\Debug\Tapai.Service.Common.pdb
+D:\Tapai.Service\Tapai.Service.Common\bin\Debug\Tapai.Service.Common.dll
+D:\Tapai.Service\Tapai.Service.Common\bin\Debug\Tapai.Service.Common.pdb
+D:\Tapai.Service\Tapai.Service.Common\obj\Debug\Tapai.Service.Common.csproj.CoreCompileInputs.cache
+D:\Tapai.Service\Tapai.Service.Common\obj\Debug\Tapai.Service.Common.dll
+D:\Tapai.Service\Tapai.Service.Common\obj\Debug\Tapai.Service.Common.pdb

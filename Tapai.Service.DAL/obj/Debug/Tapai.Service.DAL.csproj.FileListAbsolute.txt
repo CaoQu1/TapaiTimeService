@@ -1,0 +1,22 @@
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.DAL.dll
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.DAL.pdb
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.Common.dll
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.Model.dll
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.Common.pdb
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.Model.pdb
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.csprojAssemblyReference.cache
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.csproj.CoreCompileInputs.cache
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.csproj.CopyComplete
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.dll
+C:\Users\caoqu\Documents\Visual Studio 2017\Projects\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.pdb
+D:\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.DAL.dll
+D:\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.DAL.pdb
+D:\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.Common.dll
+D:\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.Model.dll
+D:\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.Common.pdb
+D:\Tapai.Service\Tapai.Service.DAL\bin\Debug\Tapai.Service.Model.pdb
+D:\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.csprojAssemblyReference.cache
+D:\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.csproj.CoreCompileInputs.cache
+D:\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.csproj.CopyComplete
+D:\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.dll
+D:\Tapai.Service\Tapai.Service.DAL\obj\Debug\Tapai.Service.DAL.pdb

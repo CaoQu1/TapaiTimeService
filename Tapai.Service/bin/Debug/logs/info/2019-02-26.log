@@ -1,0 +1,45 @@
+时间:2019-02-26 14:05:37,577 
+级别:INFO 
+类名:Tapai.Service.Current 
+内容:Start=>开启定时任务! 
+
+时间:2019-02-26 14:05:37,683 
+级别:INFO 
+类名:Tapai.Service.Current 
+内容:积分清零开始：2019/2/13 10:59:00,当前线程ID：7 
+
+时间:2019-02-26 14:08:51,481 
+级别:INFO 
+类名:Tapai.Service.Current 
+内容:Stop=>任务已被取消! 
+
+时间:2019-02-26 14:08:51,482 
+级别:INFO 
+类名:Tapai.Service.Current 
+内容:RunReset=>取消任务! 
+
+时间:2019-02-26 14:10:13,857 
+级别:INFO 
+类名:Tapai.Service.Current 
+内容:Start=>开启定时任务! 
+
+时间:2019-02-26 14:10:17,323 
+级别:INFO 
+类名:Tapai.Service.Current 
+内容:Stop=>任务已被取消! 
+
+时间:2019-02-26 14:10:17,325 
+级别:INFO 
+类名:Tapai.Service.Current 
+内容:RunReset=>取消任务! 
+
+时间:2019-02-26 14:10:17,327 
+级别:INFO 
+类名:Tapai.Service.Current 
+内容:RunNotice=>取消任务! 
+
+时间:2019-02-26 14:10:20,308 
+级别:INFO 
+类名:Tapai.Service.Current 
+内容:Start=>开启定时任务! 
+

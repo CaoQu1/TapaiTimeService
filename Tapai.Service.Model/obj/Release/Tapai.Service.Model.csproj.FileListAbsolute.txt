@@ -1,0 +1,6 @@
+D:\Tapai.Service\Tapai.Service.Model\bin\Release\Tapai.Service.Model.dll
+D:\Tapai.Service\Tapai.Service.Model\bin\Release\Tapai.Service.Model.pdb
+D:\Tapai.Service\Tapai.Service.Model\obj\Release\Tapai.Service.Model.csproj.CoreCompileInputs.cache
+D:\Tapai.Service\Tapai.Service.Model\obj\Release\Tapai.Service.Model.dll
+D:\Tapai.Service\Tapai.Service.Model\obj\Release\Tapai.Service.Model.pdb
+D:\Tapai.Service\Tapai.Service.Model\obj\Release\Tapai.Service.Model.csprojAssemblyReference.cache
