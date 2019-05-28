@@ -478,8 +478,7 @@ namespace Tapai.Service.DAL
               new SqlParameter("@type",SqlDbType.NVarChar,100){ Value=log.type},
             };
 
-            DbHelperSQL.RunProcedure("intergval_clear", sqlParameters, out int returnValue);
-            return returnValue > 0;
+            return DbHelperSQL.RunProcedure("intergval_clear", sqlParameters, out int returnValue) > 0;
         }
         #endregion  ExtensionMethod
     }

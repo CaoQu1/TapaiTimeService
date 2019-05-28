@@ -86,7 +86,7 @@ namespace Tapai.Service
                         var dateTime = DateTime.Now;
                         var clear_time = bll_property.GetUpdateTime(PubConst.INTEGRALCLEARTIME);
                         var clear_time_node = bll_property.GetUpdateTime(PubConst.INTEGRALCLEARTIMENODE);
-                        if (DateTime.Compare(dateTime, clear_time) == 0)
+                        if (dateTime.ToString("yyyy-MM-dd HH:mm:ss").Equals(clear_time.ToString("yyyy-MM-dd HH:mm:ss")))
                         {
                             log.Info($"积分清零开始：{clear_time},当前线程ID：{Thread.CurrentThread.ManagedThreadId}");
                             #region 积分清零
