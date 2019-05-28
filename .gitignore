@@ -1,3 +1,14 @@
 /packages
 /Tapai.Service/obj
 /Tapai.Service/*.back
+/Tapai.Service/bin
+/Tapai.Service.BLL/bin
+/Tapai.Service.BLL/obj
+/Tapai.Service.Common/obj
+/Tapai.Service.Common/bin
+/Tapai.Service.DAL/obj
+/Tapai.Service.DAL/bin
+/Tapai.Service.Model/obj
+/Tapai.Service.Model/bin
+/Tapai.Service.WinForm/obj
+/Tapai.Service.WinForm/bin

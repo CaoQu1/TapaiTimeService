@@ -27,7 +27,6 @@ namespace Tapai.Service
         private static string formart_message = ConfigHelper.GetAppSetting(PubConst.TEMPLATE_MESSAGE_KEY_CONTENT);
         private static string template_id = ConfigHelper.GetAppSetting(PubConst.TEMPLATE_MESSAGE_KEY);
         private static string web_server_url = ConfigHelper.GetAppSetting(PubConst.WEBSERVER);
-        private int index = 1;
         #endregion
 
         #region Property
@@ -89,11 +88,7 @@ namespace Tapai.Service
                         var clear_time_node = bll_property.GetUpdateTime(PubConst.INTEGRALCLEARTIMENODE);
                         if (DateTime.Compare(dateTime, clear_time) == 0)
                         {
-                            if (index == 1)
-                            {
-                                log.Info($"积分清零开始：{clear_time},当前线程ID：{Thread.CurrentThread.ManagedThreadId}");
-                                index++;
-                            }
+                            log.Info($"积分清零开始：{clear_time},当前线程ID：{Thread.CurrentThread.ManagedThreadId}");
                             #region 积分清零
                             RunTask((dr) =>
                              {
@@ -187,7 +182,7 @@ namespace Tapai.Service
                             });
                             #endregion
 #if DEBUG
-                        Thread.Sleep(TimeSpan.FromMinutes(Interval));
+                            Thread.Sleep(TimeSpan.FromMinutes(Interval));
 #else
                             Thread.Sleep(TimeSpan.FromHours(Interval));
 #endif
