@@ -45,6 +45,8 @@
     <Compile Include="dt_users.cs" />
     <Compile Include="dt_user_groups.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tp_shop_brush.cs" />
+    <Compile Include="tp_shop_operate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tapai.Service.DAL\Tapai.Service.DAL.csproj">

@@ -46,6 +46,7 @@
     <Compile Include="DbHelperSQL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PubConst.cs" />
+    <Compile Include="SaleAreaEnum.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

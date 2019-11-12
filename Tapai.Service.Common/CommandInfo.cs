@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data.SqlClient;
 
-namespace Porter.Corporation.DBUtility
+namespace Tapai.Service.Common
 {
     public enum EffentNextType
     {

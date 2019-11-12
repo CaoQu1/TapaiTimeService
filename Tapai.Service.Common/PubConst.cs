@@ -52,5 +52,20 @@ namespace Tapai.Service.Common
         /// 星期几几点提醒
         /// </summary>
         public const string REMINDWEEKHOUR = "remind_week_hour";
+
+        /// <summary>
+        /// 当月导购记录警告值
+        /// </summary>
+        public const string MONTHWARNNUMBER = "month_warn_number";
+
+        /// <summary>
+        /// 当月提示语句
+        /// </summary>
+        public const string MONTHWARNTEXT = "month_warn_text";
+
+        /// <summary>
+        /// 当月导购记录取消值
+        /// </summary>
+        public const string MONTHCANCELNUMER = "month_cancel_number";
     }
 }

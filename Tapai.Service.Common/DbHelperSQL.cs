@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Porter.Corporation.DBUtility
+namespace Tapai.Service.Common
 {
     public abstract class DbHelperSQL
     {

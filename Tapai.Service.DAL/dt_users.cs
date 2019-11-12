@@ -18,7 +18,7 @@ using System;
 using System.Data;
 using System.Text;
 using System.Data.SqlClient;
-using Porter.Corporation.DBUtility;
+using Tapai.Service.Common;
 
 namespace Tapai.Service.DAL
 {

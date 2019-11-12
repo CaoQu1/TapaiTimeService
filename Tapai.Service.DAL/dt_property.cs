@@ -18,7 +18,6 @@ using System;
 using System.Data;
 using System.Text;
 using System.Data.SqlClient;
-using Porter.Corporation.DBUtility;
 using Tapai.Service.Common;
 
 namespace Tapai.Service.DAL
@@ -53,6 +52,22 @@ namespace Tapai.Service.DAL
                     new SqlParameter("SQL2012id", SqlDbType.Int,4)          };
             parameters[0].Value = property_key;
             parameters[1].Value = id;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// 是否存在该记录
+        /// </summary>
+        public bool Exists(string key)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from dt_property");
+            strSql.Append(" where property_key=@key");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@key", SqlDbType.NVarChar)
+            };
+            parameters[0].Value = key;
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
@@ -235,6 +250,32 @@ namespace Tapai.Service.DAL
                     new SqlParameter("SQL2012id", SqlDbType.Int,4)
             };
             parameters[0].Value = id;
+
+            Tapai.Service.Model.dt_property model = new Tapai.Service.Model.dt_property();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                return DataRowToModel(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Tapai.Service.Model.dt_property GetModel(string key)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  top 1 id,property_key,property_value,name,description,tags,admin_name,admin_id,admin_real_name,add_time,update_time from dt_property ");
+            strSql.Append(" where property_key=@key");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@key", SqlDbType.NVarChar)
+            };
+            parameters[0].Value = key;
 
             Tapai.Service.Model.dt_property model = new Tapai.Service.Model.dt_property();
             DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);

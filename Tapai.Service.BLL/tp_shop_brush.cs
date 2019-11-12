@@ -1,12 +1,12 @@
 ﻿/**  版本信息模板在安装目录下，可自行修改。
-* dt_property.cs
+* tp_shop_brush.cs
 *
 * 功 能： N/A
-* 类 名： dt_property
+* 类 名： tp_shop_brush
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2019/01/07 18:24:35   N/A    初版
+* V0.01  2019/11/12 09:26:32   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -17,16 +17,15 @@
 using System;
 using System.Data;
 using System.Collections.Generic;
-using Tapai.Service.Model;
 namespace Tapai.Service.BLL
 {
     /// <summary>
-    /// 用户组
+    /// tp_shop_brush
     /// </summary>
-    public partial class dt_property
+    public partial class tp_shop_brush
     {
-        private readonly Tapai.Service.DAL.dt_property dal = new Tapai.Service.DAL.dt_property();
-        public dt_property()
+        private readonly Tapai.Service.DAL.tp_shop_brush dal = new Tapai.Service.DAL.tp_shop_brush();
+        public tp_shop_brush()
         { }
         #region  BasicMethod
 
@@ -41,15 +40,15 @@ namespace Tapai.Service.BLL
         /// <summary>
         /// 是否存在该记录
         /// </summary>
-        public bool Exists(string property_key, int id)
+        public bool Exists(int user_id, string code)
         {
-            return dal.Exists(property_key, id);
+            return dal.Exists(user_id, code);
         }
 
         /// <summary>
         /// 增加一条数据
         /// </summary>
-        public int Add(Tapai.Service.Model.dt_property model)
+        public bool Add(Tapai.Service.Model.tp_shop_brush model)
         {
             return dal.Add(model);
         }
@@ -57,7 +56,7 @@ namespace Tapai.Service.BLL
         /// <summary>
         /// 更新一条数据
         /// </summary>
-        public bool Update(Tapai.Service.Model.dt_property model)
+        public bool Update(Tapai.Service.Model.tp_shop_brush model)
         {
             return dal.Update(model);
         }
@@ -65,34 +64,19 @@ namespace Tapai.Service.BLL
         /// <summary>
         /// 删除一条数据
         /// </summary>
-        public bool Delete(int id)
+        public bool Delete(int user_id, string code)
         {
 
-            return dal.Delete(id);
-        }
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        public bool Delete(string property_key, int id)
-        {
-
-            return dal.Delete(property_key, id);
-        }
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        public bool DeleteList(string idlist)
-        {
-            return dal.DeleteList(idlist);
+            return dal.Delete(user_id, code);
         }
 
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
-        public Tapai.Service.Model.dt_property GetModel(int id)
+        public Tapai.Service.Model.tp_shop_brush GetModel(int user_id, string code)
         {
 
-            return dal.GetModel(id);
+            return dal.GetModel(user_id, code);
         }
 
         /// <summary>
@@ -112,7 +96,7 @@ namespace Tapai.Service.BLL
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public List<Tapai.Service.Model.dt_property> GetModelList(string strWhere)
+        public List<Tapai.Service.Model.tp_shop_brush> GetModelList(string strWhere)
         {
             DataSet ds = dal.GetList(strWhere);
             return DataTableToList(ds.Tables[0]);
@@ -120,13 +104,13 @@ namespace Tapai.Service.BLL
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public List<Tapai.Service.Model.dt_property> DataTableToList(DataTable dt)
+        public List<Tapai.Service.Model.tp_shop_brush> DataTableToList(DataTable dt)
         {
-            List<Tapai.Service.Model.dt_property> modelList = new List<Tapai.Service.Model.dt_property>();
+            List<Tapai.Service.Model.tp_shop_brush> modelList = new List<Tapai.Service.Model.tp_shop_brush>();
             int rowsCount = dt.Rows.Count;
             if (rowsCount > 0)
             {
-                Tapai.Service.Model.dt_property model;
+                Tapai.Service.Model.tp_shop_brush model;
                 for (int n = 0; n < rowsCount; n++)
                 {
                     model = dal.DataRowToModel(dt.Rows[n]);
@@ -171,31 +155,8 @@ namespace Tapai.Service.BLL
 
         #endregion  BasicMethod
         #region  ExtensionMethod
-
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        public bool Exists(string key)
-        {
-            return dal.Exists(key.Trim().ToLower());
-        }
-
-        ///获取清零时间设置日期
-        public DateTime GetUpdateTime(string key) => dal.GetUpdateTime(key);
-
-        /// <summary>
-        /// 取到一个值
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public string Get(string key)
-        {
-            if (Exists(key))
-            {
-                return dal.GetModel(key).property_value;
-            }
-            return "";
-        }
+        ///获取当月导购商家异常地址统计
+        public DataTable GetCurrentMonthStatistics(string year, string month) => dal.GetCurrentMonthStatistics(year, month);
         #endregion  ExtensionMethod
     }
 }

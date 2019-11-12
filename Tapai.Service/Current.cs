@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tapai.Service.Common;
+using Tapai.Service.Model;
 
 namespace Tapai.Service
 {
@@ -23,10 +24,12 @@ namespace Tapai.Service
         private static Lazy<Current> lazy = new Lazy<Current>(() => new Current());
         private BLL.dt_point_log bll_point;
         private BLL.dt_property bll_property;
+        private BLL.tp_shop_brush bll_brush;
         private DateTime opreate_time = DateTime.Now;
         private static string formart_message = ConfigHelper.GetAppSetting(PubConst.TEMPLATE_MESSAGE_KEY_CONTENT);
         private static string template_id = ConfigHelper.GetAppSetting(PubConst.TEMPLATE_MESSAGE_KEY);
         private static string web_server_url = ConfigHelper.GetAppSetting(PubConst.WEBSERVER);
+        private static List<string> exist_year_months = new List<string>();
         #endregion
 
         #region Property
@@ -63,6 +66,7 @@ namespace Tapai.Service
             log = LogManager.GetLogger(typeof(Current));
             bll_point = new BLL.dt_point_log();
             bll_property = new BLL.dt_property();
+            bll_brush = new BLL.tp_shop_brush();
         }
 
         /// <summary>
@@ -110,7 +114,7 @@ namespace Tapai.Service
                                              type = 8,
                                              user_name = dr["user_name"].ToString()
                                          });
-                                         log.Info($"清零结果：用户=>{dr["user_name"]},清零积分=>{point},结果=>{update_result}");
+                                         log.Info($"积分清零结果：用户=>{dr["user_name"]},清零积分=>{point},结果=>{update_result}");
                                      }
                                  }
                              });
@@ -171,9 +175,9 @@ namespace Tapai.Service
                               };
                                     wechat.Url = web_server_url;
                                     wechat.TemplateId = template_id;
-                                    log.Info($"推送数据：用户=>{dr["user_name"]},清零积分=>{dr["point"]}");
+                                    log.Info($"积分清零推送数据：用户=>{dr["user_name"]},清零积分=>{dr["point"]}");
                                     var result = Message.SendTemplate(wechat);
-                                    log.Info("推送结果：" + JSON.ToJSON(result));
+                                    log.Info("积分清零推送结果：" + JSON.ToJSON(result));
                                 }
                                 else
                                 {
@@ -194,6 +198,85 @@ namespace Tapai.Service
                     }
                 }
 
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// 每月导购警告和取消通知
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        private void RunShopCancel(CancellationToken cancellationToken)
+        {
+            try
+            {
+                while (true)
+                {
+                    var nowTime = DateTime.Now;
+                    var year = nowTime.Year.ToString();
+                    var month = nowTime.Month.ToString();
+                    if (!exist_year_months.Contains(year + month))
+                    {
+                        DataTable shopTable = bll_brush.GetCurrentMonthStatistics(year, month);
+                        string monthWarnNumberText = bll_property.Get(PubConst.MONTHWARNNUMBER);
+                        string monthCancelText = bll_property.Get(PubConst.MONTHCANCELNUMER);
+                        int monthCancelNumber = 0, monthWarnNumber = 0;
+                        if (shopTable != null)
+                        {
+                            foreach (DataRow item in shopTable.Rows)
+                            {
+                                if (int.TryParse(monthCancelText, out monthCancelNumber) && int.Parse(item["number"].ToString()) >= monthCancelNumber)
+                                {
+                                    BLL.tp_shop_operate tpShopOperateBll = new BLL.tp_shop_operate();
+                                    int user_id = int.Parse(item["user_id"].ToString());
+                                    tpShopOperateBll.UpdateDealer(user_id);
+                                    tpShopOperateBll.Add(new tp_shop_operate
+                                    {
+                                        addtime = DateTime.Now,
+                                        nick_name = item["nick_name"].ToString(),
+                                        remark = $"当月地址一致超过导购积分的最大条数，自动取消导购!",
+                                        type = (int)Common.EnumShopRecordType.Automatic,
+                                        user_id = user_id
+                                    });
+                                    log.Info($"取消导购：用户=>{user_id},昵称=>{item["nick_name"].ToString()}");
+                                }
+                                else if (int.TryParse(monthWarnNumberText, out monthWarnNumber) && int.Parse(item["number"].ToString()) >= monthWarnNumber)
+                                {
+                                    string warnText = bll_property.Get(PubConst.MONTHWARNTEXT);
+                                    if (!string.IsNullOrEmpty(warnText))
+                                    {
+                                        WeChatParam wechat = new WeChatParam();
+                                        wechat.ToUser = item["user_name"].ToString();
+                                        wechat.Data = new Dictionary<string, string>
+                              {
+                                                { "first","导购警告通知"},
+                                                { "keyword1",""},
+                                                { "keyword2",$"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}"},
+                                                { "keyword3",$"{warnText}"},
+                                                { "remark",""}
+                              };
+                                        wechat.Url = web_server_url;
+                                        wechat.TemplateId = template_id;
+                                        var result = Message.SendTemplate(wechat);
+                                        log.Info("导购警告推送结果：" + JSON.ToJSON(result));
+                                    }
+                                    else
+                                    {
+                                        log.Info("~~为设置导购警告通知!");
+                                    }
+                                }
+                            }
+                        }
+                        if (exist_year_months.Count > 0)
+                        {
+                            exist_year_months.Clear();
+                        }
+                        exist_year_months.Add(year + month);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -251,7 +334,8 @@ namespace Tapai.Service
                     {
                         var task1 = Task.Run(() => RunReset(cancellationToken));
                         var task2 = Task.Run(() => RunNotice(cancellationToken));
-                        Task.WaitAll(task1, task2);
+                        var task3 = Task.Run(() => RunShopCancel(cancellationToken));
+                        Task.WaitAll(task1, task2, task3);
                     }
                     catch (Exception ex)
                     {

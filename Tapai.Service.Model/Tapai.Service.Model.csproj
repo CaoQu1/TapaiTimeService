@@ -40,11 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dealer_level_object.cs" />
     <Compile Include="dt_point_log.cs" />
     <Compile Include="dt_property.cs" />
     <Compile Include="dt_users.cs" />
     <Compile Include="dt_user_groups.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tp_shop_brush.cs" />
+    <Compile Include="tp_shop_operate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tapai.Service.Common\Tapai.Service.Common.csproj">
+      <Project>{09EEA1B6-1589-46DE-AC6B-67A9D4E03F21}</Project>
+      <Name>Tapai.Service.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
