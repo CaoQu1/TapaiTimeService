@@ -228,7 +228,7 @@ namespace Tapai.Service
                         {
                             foreach (DataRow item in shopTable.Rows)
                             {
-                                if (int.TryParse(monthCancelText, out monthCancelNumber) && int.Parse(item["number"].ToString()) >= monthCancelNumber)
+                                if (int.TryParse(monthCancelText, out monthCancelNumber) && int.Parse(item["number"].ToString()) == monthCancelNumber)
                                 {
                                     BLL.tp_shop_operate tpShopOperateBll = new BLL.tp_shop_operate();
                                     int user_id = int.Parse(item["user_id"].ToString());
@@ -243,7 +243,7 @@ namespace Tapai.Service
                                     });
                                     log.Info($"取消导购：用户=>{user_id},昵称=>{item["nick_name"].ToString()}");
                                 }
-                                else if (int.TryParse(monthWarnNumberText, out monthWarnNumber) && int.Parse(item["number"].ToString()) >= monthWarnNumber)
+                                else if (int.TryParse(monthWarnNumberText, out monthWarnNumber) && int.Parse(item["number"].ToString()) == monthWarnNumber)
                                 {
                                     string warnText = bll_property.Get(PubConst.MONTHWARNTEXT);
                                     if (!string.IsNullOrEmpty(warnText))
