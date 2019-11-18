@@ -46,12 +46,29 @@ namespace Tapai.Service.BLL
         }
 
         /// <summary>
+        /// 当月导购是否提醒
+        /// </summary>
+        /// <param name="user_id"></param>
+        /// <param name="scan_time"></param>
+        /// <returns></returns>
+        public bool ExistsStatistics(int user_id, string scan_time) => dal.ExistsStatistics(user_id, scan_time);
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         public bool Add(Tapai.Service.Model.tp_shop_brush model)
         {
             return dal.Add(model);
         }
+
+        /// <summary>
+        /// 添加导购通知记录
+        /// </summary>
+        /// <param name="user_id"></param>
+        /// <param name="scan_time"></param>
+        /// <param name="is_reminder"></param>
+        /// <returns></returns>
+        public bool AddStatistics(int user_id, string scan_time, int is_reminder) => dal.AddStatistics(user_id, scan_time, is_reminder);
 
         /// <summary>
         /// 更新一条数据
@@ -156,7 +173,7 @@ namespace Tapai.Service.BLL
         #endregion  BasicMethod
         #region  ExtensionMethod
         ///获取当月导购商家异常地址统计
-        public DataTable GetCurrentMonthStatistics(string year, string month) => dal.GetCurrentMonthStatistics(year, month);
+        public Tuple<DataTable,DataTable> GetCurrentMonthStatistics(string year, string month,string warnText,string cancelText) => dal.GetCurrentMonthStatistics(year, month, warnText, cancelText);
         #endregion  ExtensionMethod
     }
 }

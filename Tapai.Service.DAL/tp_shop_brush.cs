@@ -57,6 +57,26 @@ namespace Tapai.Service.DAL
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
 
+        /// <summary>
+        /// 是否通知导购
+        /// </summary>
+        /// <param name="user_id"></param>
+        /// <param name="scan_time"></param>
+        /// <returns></returns>
+        public bool ExistsStatistics(int user_id, string scan_time)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from tp_shop_statistics");
+            strSql.Append(" where user_id=@user_id and scan_time=@scan_time and is_reminder=1");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@user_id", SqlDbType.Int,4),
+                    new SqlParameter("@scan_time", SqlDbType.VarChar,20)            };
+            parameters[0].Value = user_id;
+            parameters[1].Value = scan_time;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
 
         /// <summary>
         /// 增加一条数据
@@ -94,6 +114,35 @@ namespace Tapai.Service.DAL
                 return false;
             }
         }
+
+        /// <summary>
+        /// 增加一条数据
+        /// </summary>
+        public bool AddStatistics(int user_id, string scan_time, int is_reminder)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into tp_shop_statistics(");
+            strSql.Append("user_id,scan_time,is_reminder)");
+            strSql.Append(" values (");
+            strSql.Append("@user_id,@scan_time,@is_reminder)");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@user_id", SqlDbType.Int,4),
+                    new SqlParameter("@scan_time", SqlDbType.VarChar,20),
+                    new SqlParameter("@is_reminder", SqlDbType.Int ,4) };
+            parameters[0].Value = user_id;
+            parameters[1].Value = scan_time;
+            parameters[2].Value = is_reminder;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// 更新一条数据
         /// </summary>
@@ -160,7 +209,6 @@ namespace Tapai.Service.DAL
             }
         }
 
-
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
@@ -187,7 +235,6 @@ namespace Tapai.Service.DAL
                 return null;
             }
         }
-
 
         /// <summary>
         /// 得到一个对象实体
@@ -345,15 +392,29 @@ namespace Tapai.Service.DAL
         /// <param name="year"></param>
         /// <param name="month"></param>
         /// <returns></returns>
-        public DataTable GetCurrentMonthStatistics(string year, string month)
+        public Tuple<DataTable, DataTable> GetCurrentMonthStatistics(string year, string month, string warnText, string cancelText)
         {
-            StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.AppendFormat(@"select a.number,a.user_id,u.user_name,u.nick_name from(select user_id,COUNT(*) as number from tp_shop_brush where scan_year='{0}' and scan_month='{1}'  and status=2 group by user_id) as a
-left join dt_users as u
+            string sql = @"select a.number,a.user_id,u.user_name,u.nick_name,a.scan_year,a.scan_month
+from(
+select user_id,COUNT(*) as number,scan_year,scan_month from tp_shop_brush where scan_year='{0}' and scan_month='{1}'  and status=2 group by user_id,scan_year,scan_month
+) as a
+inner join dt_users as u
 on u.id = a.user_id
-", year, month);
+inner join dt_dealer_level as l
+on a.user_id=l.user_id and l.is_shop=1
+where a.number >={2}";
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.AppendFormat(sql, year, month, warnText);
             var dataSet = DbHelperSQL.Query(sqlBuilder.ToString());
-            return dataSet != null && dataSet.Tables.Count > 0 ? dataSet.Tables[0] : null;
+            DataTable warnTable = dataSet != null && dataSet.Tables.Count > 0 ? dataSet.Tables[0] : null;
+
+            sqlBuilder.Clear();
+            sqlBuilder.AppendFormat(sql, year, month, cancelText);
+
+            var dataSet1 = DbHelperSQL.Query(sqlBuilder.ToString());
+            DataTable cancelTable = dataSet1 != null && dataSet1.Tables.Count > 0 ? dataSet1.Tables[0] : null;
+
+            return Tuple.Create(warnTable, cancelTable);
         }
         #endregion  ExtensionMethod
     }

@@ -29,7 +29,6 @@ namespace Tapai.Service
         private static string formart_message = ConfigHelper.GetAppSetting(PubConst.TEMPLATE_MESSAGE_KEY_CONTENT);
         private static string template_id = ConfigHelper.GetAppSetting(PubConst.TEMPLATE_MESSAGE_KEY);
         private static string web_server_url = ConfigHelper.GetAppSetting(PubConst.WEBSERVER);
-        private static List<string> exist_year_months = new List<string>();
         #endregion
 
         #region Property
@@ -218,32 +217,36 @@ namespace Tapai.Service
                     var nowTime = DateTime.Now;
                     var year = nowTime.Year.ToString();
                     var month = nowTime.Month.ToString();
-                    if (!exist_year_months.Contains(year + month))
+                    string monthWarnNumberText = bll_property.Get(PubConst.MONTHWARNNUMBER);
+                    string monthCancelText = bll_property.Get(PubConst.MONTHCANCELNUMER);
+                    var shopTable = bll_brush.GetCurrentMonthStatistics(year, month, monthWarnNumberText, monthCancelText);
+                    if (shopTable != null)
                     {
-                        DataTable shopTable = bll_brush.GetCurrentMonthStatistics(year, month);
-                        string monthWarnNumberText = bll_property.Get(PubConst.MONTHWARNNUMBER);
-                        string monthCancelText = bll_property.Get(PubConst.MONTHCANCELNUMER);
-                        int monthCancelNumber = 0, monthWarnNumber = 0;
-                        if (shopTable != null)
+                        if (shopTable.Item2 != null)
                         {
-                            foreach (DataRow item in shopTable.Rows)
+                            foreach (DataRow item in shopTable.Item2.Rows)
                             {
-                                if (int.TryParse(monthCancelText, out monthCancelNumber) && int.Parse(item["number"].ToString()) == monthCancelNumber)
+                                BLL.tp_shop_operate tpShopOperateBll = new BLL.tp_shop_operate();
+                                int user_id = int.Parse(item["user_id"].ToString());
+                                tpShopOperateBll.UpdateDealer(user_id);
+                                tpShopOperateBll.Add(new tp_shop_operate
                                 {
-                                    BLL.tp_shop_operate tpShopOperateBll = new BLL.tp_shop_operate();
-                                    int user_id = int.Parse(item["user_id"].ToString());
-                                    tpShopOperateBll.UpdateDealer(user_id);
-                                    tpShopOperateBll.Add(new tp_shop_operate
-                                    {
-                                        addtime = DateTime.Now,
-                                        nick_name = item["nick_name"].ToString(),
-                                        remark = $"当月地址一致超过导购积分的最大条数，自动取消导购!",
-                                        type = (int)Common.EnumShopRecordType.Automatic,
-                                        user_id = user_id
-                                    });
-                                    log.Info($"取消导购：用户=>{user_id},昵称=>{item["nick_name"].ToString()}");
-                                }
-                                else if (int.TryParse(monthWarnNumberText, out monthWarnNumber) && int.Parse(item["number"].ToString()) == monthWarnNumber)
+                                    addtime = DateTime.Now,
+                                    nick_name = item["nick_name"].ToString(),
+                                    remark = $"当月地址一致超过导购积分的最大条数，自动取消导购!",
+                                    type = (int)Common.EnumShopRecordType.Automatic,
+                                    user_id = user_id
+                                });
+                                log.Info($"取消导购：用户=>{user_id},昵称=>{item["nick_name"].ToString()}");
+                            }
+                        }
+                        if (shopTable.Item1 != null)
+                        {
+                            foreach (DataRow item in shopTable.Item1.Rows)
+                            {
+                                int userid = int.Parse(item["user_id"].ToString());
+                                string time = item["scan_year"].ToString() + item["scan_month"].ToString();
+                                if (!bll_brush.ExistsStatistics(userid, time))
                                 {
                                     string warnText = bll_property.Get(PubConst.MONTHWARNTEXT);
                                     if (!string.IsNullOrEmpty(warnText))
@@ -262,6 +265,10 @@ namespace Tapai.Service
                                         wechat.TemplateId = template_id;
                                         var result = Message.SendTemplate(wechat);
                                         log.Info("导购警告推送结果：" + JSON.ToJSON(result));
+                                        if (result.IsSuccess)
+                                        {
+                                            bll_brush.AddStatistics(userid, time, 1);//1代表当月已通知 0未通知
+                                        }
                                     }
                                     else
                                     {
@@ -270,11 +277,6 @@ namespace Tapai.Service
                                 }
                             }
                         }
-                        if (exist_year_months.Count > 0)
-                        {
-                            exist_year_months.Clear();
-                        }
-                        exist_year_months.Add(year + month);
                     }
                 }
             }
