@@ -396,7 +396,10 @@ namespace Tapai.Service.DAL
         {
             string sql = @"select a.number,a.user_id,u.user_name,u.nick_name,a.scan_year,a.scan_month
 from(
-select user_id,COUNT(*) as number,scan_year,scan_month from tp_shop_brush where scan_year='{0}' and scan_month='{1}'  and status=2 group by user_id,scan_year,scan_month
+select s.user_id,COUNT(*) as number,s.scan_year,s.scan_month from tp_shop_brush as s
+inner join tp_shop_record as p
+ on s.code=p.code and p.exist_integral=1 
+where s.scan_year='{0}' and s.scan_month='{1}'  and s.status=2 group by s.user_id,s.scan_year,s.scan_month
 ) as a
 inner join dt_users as u
 on u.id = a.user_id
