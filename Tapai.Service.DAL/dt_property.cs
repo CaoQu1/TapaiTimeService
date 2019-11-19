@@ -482,7 +482,8 @@ namespace Tapai.Service.DAL
             };
                 parameters[0].Value = key;
                 var obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
-                return obj != null && DateTime.TryParse(obj.ToString(), out DateTime update_time) ? update_time : DateTime.Now;
+                DateTime update_time;
+                return obj != null && DateTime.TryParse(obj.ToString(), out update_time) ? update_time : DateTime.Now;
             }
             catch (Exception ex)
             {
