@@ -99,7 +99,8 @@ namespace Tapai.Service
                                  {
                                      var surplus = dr["surplus"].ToString();
                                      var point = dr["point"].ToString();
-                                     if (int.TryParse(surplus, out int _surplus) && int.TryParse(point, out int _point) && _surplus >= _point)//剩余积分大于清零的积分
+                                     int _surplus, _point;
+                                     if (int.TryParse(surplus, out _surplus) && int.TryParse(point, out _point) && _surplus >= _point)//剩余积分大于清零的积分
                                      {
                                          var update_result = bll_point.UpdateUserPoint(new Model.dt_point_log
                                          {
@@ -298,7 +299,8 @@ namespace Tapai.Service
         {
             var total = bll_point.GetNotUsePointCount();
             var every = ConfigHelper.GetAppSetting(PubConst.EVERY_COUNT);
-            if (int.TryParse(every, out int everycount))
+            int everycount;
+            if (int.TryParse(every, out everycount))
             {
                 int thread_count = total / everycount;
                 var is_divide = (total % everycount) == 0;
