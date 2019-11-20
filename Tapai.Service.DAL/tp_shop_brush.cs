@@ -63,16 +63,19 @@ namespace Tapai.Service.DAL
         /// <param name="user_id"></param>
         /// <param name="scan_time"></param>
         /// <returns></returns>
-        public bool ExistsStatistics(int user_id, string scan_time)
+        public bool ExistsStatistics(int user_id, string scan_time, int number)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select count(1) from tp_shop_statistics");
-            strSql.Append(" where user_id=@user_id and scan_time=@scan_time and is_reminder=1");
+            strSql.Append("select count(0) from tp_shop_statistics");
+            strSql.Append(" where user_id=@user_id and scan_time=@scan_time and number=@number and is_reminder=1");
             SqlParameter[] parameters = {
                     new SqlParameter("@user_id", SqlDbType.Int,4),
-                    new SqlParameter("@scan_time", SqlDbType.VarChar,20)            };
+                    new SqlParameter("@scan_time", SqlDbType.VarChar,20),
+                    new SqlParameter("@number", SqlDbType.Int,4),
+            };
             parameters[0].Value = user_id;
             parameters[1].Value = scan_time;
+            parameters[2].Value = number;
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
@@ -118,20 +121,23 @@ namespace Tapai.Service.DAL
         /// <summary>
         /// 增加一条数据
         /// </summary>
-        public bool AddStatistics(int user_id, string scan_time, int is_reminder)
+        public bool AddStatistics(int user_id, string scan_time, int number, int is_reminder)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into tp_shop_statistics(");
-            strSql.Append("user_id,scan_time,is_reminder)");
+            strSql.Append("user_id,scan_time,is_reminder,number)");
             strSql.Append(" values (");
-            strSql.Append("@user_id,@scan_time,@is_reminder)");
+            strSql.Append("@user_id,@scan_time,@is_reminder,@number)");
             SqlParameter[] parameters = {
                     new SqlParameter("@user_id", SqlDbType.Int,4),
                     new SqlParameter("@scan_time", SqlDbType.VarChar,20),
-                    new SqlParameter("@is_reminder", SqlDbType.Int ,4) };
+                    new SqlParameter("@is_reminder", SqlDbType.Int ,4),
+                    new SqlParameter("@number", SqlDbType.Int ,4)
+            };
             parameters[0].Value = user_id;
             parameters[1].Value = scan_time;
             parameters[2].Value = is_reminder;
+            parameters[3].Value = number;
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
             {
@@ -397,9 +403,9 @@ namespace Tapai.Service.DAL
             string sql = @"select a.number,a.user_id,u.user_name,u.nick_name,a.scan_year,a.scan_month
 from(
 select s.user_id,COUNT(*) as number,s.scan_year,s.scan_month from tp_shop_brush as s
-inner join tp_shop_record as p
- on s.code=p.code and p.exist_integral=1 
-where s.scan_year='{0}' and s.scan_month='{1}'  and s.status=2 group by s.user_id,s.scan_year,s.scan_month
+where s.scan_year='{0}' and s.scan_month='{1}'  and s.status=2
+and exists(select code from tp_shop_record where code=s.code and exist_integral=1)
+group by s.user_id,s.scan_year,s.scan_month
 ) as a
 inner join dt_users as u
 on u.id = a.user_id

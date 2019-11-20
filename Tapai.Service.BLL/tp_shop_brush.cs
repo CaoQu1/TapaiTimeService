@@ -51,7 +51,7 @@ namespace Tapai.Service.BLL
         /// <param name="user_id"></param>
         /// <param name="scan_time"></param>
         /// <returns></returns>
-        public bool ExistsStatistics(int user_id, string scan_time) => dal.ExistsStatistics(user_id, scan_time);
+        public bool ExistsStatistics(int user_id, string scan_time,int number) => dal.ExistsStatistics(user_id, scan_time,number);
 
         /// <summary>
         /// 增加一条数据
@@ -68,7 +68,7 @@ namespace Tapai.Service.BLL
         /// <param name="scan_time"></param>
         /// <param name="is_reminder"></param>
         /// <returns></returns>
-        public bool AddStatistics(int user_id, string scan_time, int is_reminder) => dal.AddStatistics(user_id, scan_time, is_reminder);
+        public bool AddStatistics(int user_id, string scan_time,int number, int is_reminder) => dal.AddStatistics(user_id, scan_time, number, is_reminder);
 
         /// <summary>
         /// 更新一条数据

@@ -219,6 +219,7 @@ namespace Tapai.Service
                     var month = nowTime.Month.ToString();
                     string monthWarnNumberText = bll_property.Get(PubConst.MONTHWARNNUMBER);
                     string monthCancelText = bll_property.Get(PubConst.MONTHCANCELNUMER);
+                    int warnNumber = int.Parse(monthWarnNumberText);
                     var shopTable = bll_brush.GetCurrentMonthStatistics(year, month, monthWarnNumberText, monthCancelText);
                     if (shopTable != null)
                     {
@@ -246,7 +247,7 @@ namespace Tapai.Service
                             {
                                 int userid = int.Parse(item["user_id"].ToString());
                                 string time = item["scan_year"].ToString() + item["scan_month"].ToString();
-                                if (!bll_brush.ExistsStatistics(userid, time))
+                                if (!bll_brush.ExistsStatistics(userid, time, warnNumber))
                                 {
                                     string warnText = bll_property.Get(PubConst.MONTHWARNTEXT);
                                     if (!string.IsNullOrEmpty(warnText))
@@ -267,7 +268,7 @@ namespace Tapai.Service
                                         log.Info("导购警告推送结果：" + JSON.ToJSON(result));
                                         if (result.IsSuccess)
                                         {
-                                            bll_brush.AddStatistics(userid, time, 1);//1代表当月已通知 0未通知
+                                            bll_brush.AddStatistics(userid, time, warnNumber, 1);//1代表当月已通知 0未通知
                                         }
                                     }
                                     else
