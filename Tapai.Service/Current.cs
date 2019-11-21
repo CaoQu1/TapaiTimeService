@@ -220,42 +220,47 @@ namespace Tapai.Service
                     var month = nowTime.Month.ToString();
                     string monthWarnNumberText = bll_property.Get(PubConst.MONTHWARNNUMBER);
                     string monthCancelText = bll_property.Get(PubConst.MONTHCANCELNUMER);
-                    int warnNumber = int.Parse(monthWarnNumberText);
-                    var shopTable = bll_brush.GetCurrentMonthStatistics(year, month, monthWarnNumberText, monthCancelText);
-                    if (shopTable != null)
+                    if (!string.IsNullOrEmpty(monthCancelText) && !string.IsNullOrEmpty(monthWarnNumberText))
                     {
-                        if (shopTable.Item2 != null)
+                        int warnNumber = int.Parse(monthWarnNumberText);
+                        int cancelNumber = int.Parse(monthCancelText);
+                        if (warnNumber > 0 && cancelNumber > 0)
                         {
-                            foreach (DataRow item in shopTable.Item2.Rows)
+                            var shopTable = bll_brush.GetCurrentMonthStatistics(year, month, monthWarnNumberText, monthCancelText);
+                            if (shopTable != null)
                             {
-                                BLL.tp_shop_operate tpShopOperateBll = new BLL.tp_shop_operate();
-                                int user_id = int.Parse(item["user_id"].ToString());
-                                tpShopOperateBll.UpdateDealer(user_id);
-                                tpShopOperateBll.Add(new tp_shop_operate
+                                if (shopTable.Item2 != null)
                                 {
-                                    addtime = DateTime.Now,
-                                    nick_name = item["nick_name"].ToString(),
-                                    remark = $"当月地址一致超过导购积分的最大条数，自动取消导购!",
-                                    type = (int)Common.EnumShopRecordType.Automatic,
-                                    user_id = user_id
-                                });
-                                log.Info($"取消导购：用户=>{user_id},昵称=>{item["nick_name"].ToString()}");
-                            }
-                        }
-                        if (shopTable.Item1 != null)
-                        {
-                            foreach (DataRow item in shopTable.Item1.Rows)
-                            {
-                                int userid = int.Parse(item["user_id"].ToString());
-                                string time = item["scan_year"].ToString() + item["scan_month"].ToString();
-                                if (!bll_brush.ExistsStatistics(userid, time, warnNumber))
-                                {
-                                    string warnText = bll_property.Get(PubConst.MONTHWARNTEXT);
-                                    if (!string.IsNullOrEmpty(warnText))
+                                    foreach (DataRow item in shopTable.Item2.Rows)
                                     {
-                                        WeChatParam wechat = new WeChatParam();
-                                        wechat.ToUser = item["user_name"].ToString();
-                                        wechat.Data = new Dictionary<string, string>
+                                        BLL.tp_shop_operate tpShopOperateBll = new BLL.tp_shop_operate();
+                                        int user_id = int.Parse(item["user_id"].ToString());
+                                        tpShopOperateBll.UpdateDealer(user_id);
+                                        tpShopOperateBll.Add(new tp_shop_operate
+                                        {
+                                            addtime = DateTime.Now,
+                                            nick_name = item["nick_name"].ToString(),
+                                            remark = $"当月地址一致超过导购积分的最大条数，自动取消导购!",
+                                            type = (int)Common.EnumShopRecordType.Automatic,
+                                            user_id = user_id
+                                        });
+                                        log.Info($"取消导购：用户=>{user_id},昵称=>{item["nick_name"].ToString()}");
+                                    }
+                                }
+                                if (shopTable.Item1 != null)
+                                {
+                                    foreach (DataRow item in shopTable.Item1.Rows)
+                                    {
+                                        int userid = int.Parse(item["user_id"].ToString());
+                                        string time = item["scan_year"].ToString() + item["scan_month"].ToString();
+                                        if (!bll_brush.ExistsStatistics(userid, time, warnNumber))
+                                        {
+                                            string warnText = bll_property.Get(PubConst.MONTHWARNTEXT);
+                                            if (!string.IsNullOrEmpty(warnText))
+                                            {
+                                                WeChatParam wechat = new WeChatParam();
+                                                wechat.ToUser = item["user_name"].ToString();
+                                                wechat.Data = new Dictionary<string, string>
                               {
                                                 { "first","导购警告通知"},
                                                 { "keyword1",""},
@@ -263,18 +268,20 @@ namespace Tapai.Service
                                                 { "keyword3",$"{warnText}"},
                                                 { "remark",""}
                               };
-                                        wechat.Url = web_server_url;
-                                        wechat.TemplateId = template_id;
-                                        var result = Message.SendTemplate(wechat);
-                                        log.Info("导购警告推送结果：" + JSON.ToJSON(result));
-                                        if (result.IsSuccess)
-                                        {
-                                            bll_brush.AddStatistics(userid, time, warnNumber, 1);//1代表当月已通知 0未通知
+                                                wechat.Url = web_server_url;
+                                                wechat.TemplateId = template_id;
+                                                var result = Message.SendTemplate(wechat);
+                                                log.Info("导购警告推送结果：" + JSON.ToJSON(result));
+                                                if (result.IsSuccess)
+                                                {
+                                                    bll_brush.AddStatistics(userid, time, warnNumber, 1);//1代表当月已通知 0未通知
+                                                }
+                                            }
+                                            else
+                                            {
+                                                log.Info("~~为设置导购警告通知!");
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        log.Info("~~为设置导购警告通知!");
                                     }
                                 }
                             }
