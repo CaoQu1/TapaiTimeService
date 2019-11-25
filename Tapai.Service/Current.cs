@@ -155,7 +155,7 @@ namespace Tapai.Service
                         var dateTime = DateTime.Now;
                         var clear_time = bll_property.GetUpdateTime(PubConst.INTEGRALCLEARTIME);
                         var clear_time_node = bll_property.GetUpdateTime(PubConst.INTEGRALCLEARTIMENODE);
-                        if (dateTime >= opreate_time && dateTime.DayOfWeek == (DayOfWeek)int.Parse(ConfigHelper.GetAppSetting(PubConst.REMINDWEEK)) && dateTime.Hour >= int.Parse(ConfigHelper.GetAppSetting(PubConst.REMINDWEEKHOUR)))
+                        if (dateTime >= opreate_time && dateTime <= clear_time && dateTime.DayOfWeek == (DayOfWeek)int.Parse(ConfigHelper.GetAppSetting(PubConst.REMINDWEEK)) && dateTime.Hour == int.Parse(ConfigHelper.GetAppSetting(PubConst.REMINDWEEKHOUR)))
                         {
                             log.Info($"发送积分清零通知开始：{dateTime},当前线程ID：{Thread.CurrentThread.ManagedThreadId}");
                             #region 发送积分清零通知
