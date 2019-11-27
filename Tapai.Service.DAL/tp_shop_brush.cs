@@ -400,18 +400,15 @@ namespace Tapai.Service.DAL
         /// <returns></returns>
         public Tuple<DataTable, DataTable> GetCurrentMonthStatistics(string year, string month, string warnText, string cancelText)
         {
-            string sql = @"select a.number,a.user_id,u.user_name,u.nick_name,a.scan_year,a.scan_month
-from(
-select s.user_id,COUNT(*) as number,s.scan_year,s.scan_month from tp_shop_brush as s
-where s.scan_year='{0}' and s.scan_month='{1}'  and s.status=2
-and exists(select code from tp_shop_record where code=s.code and exist_integral=1)
-group by s.user_id,s.scan_year,s.scan_month
-) as a
-inner join dt_users as u
-on u.id = a.user_id
-inner join dt_dealer_level as l
-on a.user_id=l.user_id and l.is_shop=1
-where a.number >={2}";
+            string sql = @" select * from( select p.user_id,u.user_name,u.nick_name,COUNT(code) number from dt_point_log  as p 
+ inner join dt_users as u
+ on p.user_id=u.id
+ where p.type=13
+ and DATEPART(YY,p.add_time)='{0}'
+ and DATEPART(MM,p.add_time)='{1}'
+ and p.code is not null
+ and exists (select code from tp_shop_record where code=p.code and exist_integral=1)
+ group by p.user_id,u.user_name,u.nick_name )  as m where m.number>={2}";
             StringBuilder sqlBuilder = new StringBuilder();
             sqlBuilder.AppendFormat(sql, year, month, warnText);
             var dataSet = DbHelperSQL.Query(sqlBuilder.ToString());
