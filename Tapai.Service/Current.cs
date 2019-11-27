@@ -252,7 +252,7 @@ namespace Tapai.Service
                                     foreach (DataRow item in shopTable.Item1.Rows)
                                     {
                                         int userid = int.Parse(item["user_id"].ToString());
-                                        string time = item["scan_year"].ToString() + item["scan_month"].ToString();
+                                        string time = year + month;
                                         if (!bll_brush.ExistsStatistics(userid, time, warnNumber))
                                         {
                                             string warnText = bll_property.Get(PubConst.MONTHWARNTEXT);
