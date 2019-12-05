@@ -403,6 +403,8 @@ namespace Tapai.Service.DAL
             string sql = @" select * from( select p.user_id,u.user_name,u.nick_name,COUNT(code) number from dt_point_log  as p 
  inner join dt_users as u
  on p.user_id=u.id
+ inner join dt_dealer_level as l
+ on u.id=l.user_id and l.is_shop=1
  where p.type=13
  and DATEPART(YY,p.add_time)='{0}'
  and DATEPART(MM,p.add_time)='{1}'
