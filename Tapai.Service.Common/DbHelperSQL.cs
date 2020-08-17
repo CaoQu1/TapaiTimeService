@@ -548,6 +548,7 @@ namespace Tapai.Service.Common
                 {
                     connection.Open();
                     SqlDataAdapter command = new SqlDataAdapter(SQLString, connection);
+                    command.SelectCommand.CommandTimeout = 180;
                     command.Fill(ds, "ds");
                 }
                 catch (System.Data.SqlClient.SqlException ex)
