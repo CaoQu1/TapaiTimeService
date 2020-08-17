@@ -413,7 +413,7 @@ namespace Tapai.Service.DAL
  group by p.user_id,u.user_name,u.nick_name )  as m where m.number>={2}";
             StringBuilder sqlBuilder = new StringBuilder();
             sqlBuilder.AppendFormat(sql, year, month, warnText);
-            var dataSet = DbHelperSQL.Query(sqlBuilder.ToString());
+            var dataSet = DbHelperSQL.Query(sqlBuilder.ToString(), 180);
             DataTable warnTable = dataSet != null && dataSet.Tables.Count > 0 ? dataSet.Tables[0] : null;
 
             sqlBuilder.Clear();
