@@ -438,7 +438,7 @@ namespace Tapai.Service.DAL
         /// <returns></returns>
         public int GetNotUsePointCount()
         {
-            var obj = DbHelperSQL.RunProcedure("not_user_point_count", new SqlParameter[] { new SqlParameter("@property_key", PubConst.INTEGRALCLEARTIMENODE) }, "total", 180);
+            var obj = DbHelperSQL.RunProcedure("not_user_point_count", new SqlParameter[] { new SqlParameter("@property_key", PubConst.INTEGRALCLEARTIMENODE) }, "total", 360);
             return obj != null && obj.Tables.Count > 0 && obj.Tables[0].Rows.Count > 0 ? Convert.ToInt32(obj.Tables[0].Rows[0][0]) : 0;
         }
 
@@ -453,7 +453,7 @@ namespace Tapai.Service.DAL
                  new SqlParameter("@start",SqlDbType.Int,4){ Value=pageIndex*pageSize+1},
                  new SqlParameter("@end",SqlDbType.Int,4){ Value=(pageIndex+1)*pageSize}
             };
-            var dataSet = DbHelperSQL.RunProcedure("not_user_point", sqlParameters, "userPoint", 180);
+            var dataSet = DbHelperSQL.RunProcedure("not_user_point", sqlParameters, "userPoint", 360);
             return dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0 ? dataSet.Tables[0] : null;
         }
 

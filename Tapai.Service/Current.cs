@@ -91,7 +91,7 @@ namespace Tapai.Service
                         var clear_time_node = bll_property.GetUpdateTime(PubConst.INTEGRALCLEARTIMENODE);
                         if (dateTime.ToString("yyyy-MM-dd HH:mm:ss").Equals(clear_time.ToString("yyyy-MM-dd HH:mm:ss")))
                         {
-                            log.Info($"积分清零开始：{clear_time},当前线程ID：{Thread.CurrentThread.ManagedThreadId}");
+                            log.Info($"积分清零开始：{clear_time},当前线程ID：{Thread.CurrentThread.ManagedThreadId},是否线程池线程：{Thread.CurrentThread.IsThreadPoolThread}");
                             #region 积分清零
                             RunTask((dr) =>
                              {
@@ -157,7 +157,7 @@ namespace Tapai.Service
                         var clear_time_node = bll_property.GetUpdateTime(PubConst.INTEGRALCLEARTIMENODE);
                         if (dateTime >= opreate_time && dateTime <= clear_time && dateTime.DayOfWeek == (DayOfWeek)int.Parse(ConfigHelper.GetAppSetting(PubConst.REMINDWEEK)) && dateTime.Hour == int.Parse(ConfigHelper.GetAppSetting(PubConst.REMINDWEEKHOUR)))
                         {
-                            log.Info($"发送积分清零通知开始：{dateTime},当前线程ID：{Thread.CurrentThread.ManagedThreadId}");
+                            log.Info($"发送积分清零通知开始：{dateTime},当前线程ID：{Thread.CurrentThread.ManagedThreadId},是否线程池线程：{Thread.CurrentThread.IsThreadPoolThread}");
                             #region 发送积分清零通知
                             RunTask((dr) =>
                             {
@@ -176,8 +176,16 @@ namespace Tapai.Service
                                     wechat.Url = web_server_url;
                                     wechat.TemplateId = template_id;
                                     log.Info($"积分清零推送数据：用户=>{dr["user_name"]},清零积分=>{dr["point"]}");
-                                    var result = Message.SendTemplate(wechat);
-                                    log.Info("积分清零推送结果：" + JSON.ToJSON(result));
+                                    try
+                                    {
+                                        var result = Message.SendTemplate(wechat);
+                                        log.Info("积分清零推送结果：" + JSON.ToJSON(result));
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        log.Error(e);
+                                    }
+
                                 }
                                 else
                                 {
@@ -322,7 +330,7 @@ namespace Tapai.Service
                           var dt = bll_point.GetNotUserPoint(i, everycount);
                           if (dt != null && dt.Rows.Count > 0)
                           {
-                              //log.Info($"线程：{i},实际数量：{dt.Rows.Count}");
+                              log.Info($"第{i}次循环,当前线程ID：{Thread.CurrentThread.ManagedThreadId},是否线程池线程：{Thread.CurrentThread.IsThreadPoolThread},实际数量：{dt.Rows.Count}");
                               foreach (DataRow dr in dt.Rows)
                               {
                                   action(dr);
@@ -360,7 +368,7 @@ namespace Tapai.Service
                      log.Error(result.Exception.Message, result.Exception);
                  }
              });
-                log.Info("Start=>开启定时任务!");
+                log.Info($"Start=>开启定时任务!当前线程ID：{Thread.CurrentThread.ManagedThreadId},是否线程池线程：{Thread.CurrentThread.IsThreadPoolThread}");
                 //task.Wait();//阻塞线程，等待完成，捕获异常。
             }
             catch (AggregateException ex)

@@ -419,7 +419,7 @@ namespace Tapai.Service.DAL
             sqlBuilder.Clear();
             sqlBuilder.AppendFormat(sql, year, month, cancelText);
 
-            var dataSet1 = DbHelperSQL.Query(sqlBuilder.ToString());
+            var dataSet1 = DbHelperSQL.Query(sqlBuilder.ToString(), 360);
             DataTable cancelTable = dataSet1 != null && dataSet1.Tables.Count > 0 ? dataSet1.Tables[0] : null;
 
             return Tuple.Create(warnTable, cancelTable);
